@@ -1,0 +1,8 @@
+{
+  email {$CADDY_EMAIL}
+}
+
+{$DUCKDNS_DOMAIN} {
+  reverse_proxy /api/* sz-express:3000
+  reverse_proxy /* sz-express:3000
+}

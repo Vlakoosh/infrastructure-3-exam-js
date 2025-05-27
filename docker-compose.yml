@@ -13,13 +13,20 @@ services:
       - sz-network
     depends_on:
       - sz-postgres
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   sz-postgres:
     image: postgres:16
+    container_name: sz-postgres
+    restart: unless-stopped
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      POSTGRES_DB: yourdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
     volumes:
       - sz-postgres-data:/var/lib/postgresql/data
     networks:

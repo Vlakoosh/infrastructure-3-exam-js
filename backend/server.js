@@ -31,10 +31,18 @@ app.delete('/api/items/:id', async (req, res) => {
 });
 
 const port = 3000;
-app.listen(port, async () => {
-    await pool.query(`CREATE TABLE IF NOT EXISTS items (
-    id SERIAL PRIMARY KEY,
-    text TEXT NOT NULL
-  )`);
-    console.log(`Server running on port ${port}`);
-});
+async function connectWithRetry() {
+    try {
+        await pool.connect();
+        console.log("Connected to DB");
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`Server running on port ${port}`);
+        });
+    } catch (err) {
+        console.error("Postgres not ready, retrying in 3s...");
+        setTimeout(connectWithRetry, 3000);
+    }
+}
+
+connectWithRetry();
+

@@ -1,10 +1,6 @@
-# Terraform files
-.terraform/
 
-# Logs
 *.log
 
-# Environment variables
 .env
 .idea
 backend/node_modules

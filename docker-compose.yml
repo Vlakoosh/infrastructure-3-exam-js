@@ -24,9 +24,9 @@ services:
     container_name: sz-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: yourdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - sz-postgres-data:/var/lib/postgresql/data
     networks:
